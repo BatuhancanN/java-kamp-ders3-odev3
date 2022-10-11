@@ -6,11 +6,12 @@ import odev3.core.logging.FileILogger;
 import odev3.core.logging.ILogger;
 import odev3.core.logging.MailILogger;
 import odev3.dataAccess.HibernateCourseDao;
+import odev3.dataAccess.JdbcCourseDao;
 import odev3.entities.Course;
 
 public class Main
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
         /*kodlama.io web sitesinin ana sayfasında bulunan eğitmen, kategori ve kurs bölümlerini katmanlı mimaride kodlamak istiyoruz.
 
@@ -24,11 +25,21 @@ public class Main
         Kategori ismi tekrar edemez
         Bir kursun fiyatı 0 dan küçük olamaz*/
 
-        Course course1 = new Course(1,"Java",100,"Yeni başlayanlar");
+        Course course1 = new Course(100,"Java",30,"Giriş");
 
-        ILogger[] ILoggers = {new DatabaseILogger(), new FileILogger(), new MailILogger()};
 
-        CourseService courseService = new CourseService(new HibernateCourseDao(), ILoggers);
-        courseService.add(course1);
+        ILogger[] ILoggers = {new FileILogger(), new DatabaseILogger()};
+
+        CourseService courseService = new CourseService(new JdbcCourseDao(), ILoggers);
+
+        try
+        {
+            courseService.add(course1);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+        }
+
     }
 }

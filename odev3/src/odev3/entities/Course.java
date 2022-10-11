@@ -17,6 +17,7 @@ public class Course
         this.name = name;
         this.price = price;
         this.category = category;
+
     }
 
     public int getId() {
